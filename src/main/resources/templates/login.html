@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; }
+        .container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+	
+	<!-- Success message from registration -->
+	<div th:if="${success != null}" style="color: green; background: #e6f7e6; padding: 15px; border-radius: 5px; margin: 20px 0; text-align: center;">
+	    <strong>[[${success}]]</strong>
+	</div>
+
+	<!-- Error message from registration (username/email exists) -->
+	<div th:if="${error != null}" style="color: red; background: #fdeaea; padding: 15px; border-radius: 5px; margin: 20px 0; text-align: center;">
+	    <strong>[[${error}]]</strong>
+	</div>
+
+	<!-- Spring Security invalid credentials -->
+	<div th:if="${param.error}" style="color: red; background: #fdeaea; padding: 15px; border-radius: 5px; margin: 20px 0; text-align: center;">
+	    <strong>Invalid username or password!</strong>
+	</div>
+	
+<div class="container">
+    <h2>Login</h2>
+
+    <div th:if="${param.error}" class="error">
+        Invalid username or password.
+    </div>
+    <div th:if="${param.logout}" style="color: green;">
+        You have been logged out.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <label>Username:</label>
+        <input type="text" name="username" required />
+
+        <label>Password:</label>
+        <input type="password" name="password" required />
+
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+    <p><a th:href="@{/}">← Back to Home</a></p>
+</div>
+</body>
+</html>

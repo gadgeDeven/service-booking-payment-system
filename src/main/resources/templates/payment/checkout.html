@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            margin-top: 50px; 
+            background: #f8f9fa; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+        }
+        h2 { color: #007bff; }
+        h3 { color: #333; margin: 20px 0; }
+        .amount { 
+            font-size: 32px; 
+            font-weight: bold; 
+            color: #28a745; 
+            margin: 30px 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Complete Payment for</h2>
+        <h3 th:text="${serviceName}">Service Name</h3>
+        <p class="amount">₹<span th:text="${amount / 100}">0</span></p>
+
+        <p>Please wait while we redirect you to secure payment gateway...</p>
+    </div>
+
+    <script type="text/javascript">
+        var options = {
+            "key": "[[${keyId}]]",
+            "amount": "[[${amount}]]",
+            "currency": "INR",
+            "name": "Online Service Booking & Payment System",
+            "description": "Booking Payment - Prepared by Devendra Gadge",
+            "order_id": "[[${orderId}]]",
+            "handler": function (response) {
+                // Payment successful - redirect to success page with details
+                window.location.href = "/payment/success?" +
+                    "razorpayPaymentId=" + response.razorpay_payment_id +
+                    "&razorpayOrderId=" + response.razorpay_order_id +
+                    "&razorpaySignature=" + response.razorpay_signature +
+                    "&bookingId=" + "[[${bookingId}]]";
+            },
+            "prefill": {
+                "name": "[[${customerName}]]"
+            },
+            "theme": {
+                "color": "#007bff"
+            },
+            "modal": {
+                "ondismiss": function() {
+                    window.location.href = "/";  // If user closes popup
+                }
+            }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+    </script>
+</body>
+</html>

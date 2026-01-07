@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Success</title>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 100px; background: #f8f9fa; }
+        .success { color: #28a745; font-size: 32px; }
+        .details { font-size: 18px; margin: 30px; }
+        a { padding: 15px 30px; background: #007bff; color: white; text-decoration: none; border-radius: 8px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1 class="success">[[${message}]]</h1>
+    <div class="details">
+        <p>Payment ID: <strong th:text="${paymentId}"></strong></p>
+        <p>Your booking is confirmed!</p>
+    </div>
+    <a th:href="@{/}">← Back to Home</a>
+</body>
+</html>

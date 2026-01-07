@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Home - Online Service Booking</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        a { margin: 0 10px; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+        .logged-in { margin-top: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Online Service Booking & Payment System</h1>
+    <p>Prepared by Devendra Gadge</p>
+	
+	<div sec:authorize="hasRole('ADMIN')">
+	    <p><a th:href="@{/admin/dashboard}">Go to Admin Dashboard</a></p>
+	</div>
+
+    <div sec:authorize="isAuthenticated()" class="logged-in">
+        <p>Hello, <span sec:authentication="name"></span>!</p>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+    <div sec:authorize="isAnonymous()">
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/register}">Register</a>
+    </div>
+	
+	<div sec:authorize="isAuthenticated()">
+	    <h2 style="margin-top: 50px; color: #007bff;">Available Services</h2>
+	    
+	    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+	        <div th:each="s : ${services}" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background: white;">
+	            <h3 th:text="${s.name}" style="color: #007bff; margin-top: 0;"></h3>
+	            <p th:text="${s.description}"></p>
+	            <p><strong>Price: ₹<span th:text="${s.price}"></span></strong></p>
+	            <a th:href="@{'/booking/new?serviceId=' + ${s.id}}" style="display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;">Book Now</a>
+	        </div>
+	    </div>
+	    
+	    <div th:if="${services.isEmpty()}" style="text-align: center; margin: 50px; color: #666;">
+	        <p>No services available yet. Admin will add soon!</p>
+	    </div>
+	</div>
+	
+</body>
+</html>

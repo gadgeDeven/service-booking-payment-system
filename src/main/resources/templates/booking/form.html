@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Service</title>
+    <style>
+        body { font-family: Arial; margin: 40px; background: #f8f9fa; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 12px 30px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Book: <span th:text="${service.name}"></span></h2>
+        <p><strong>Price: ₹</strong><span th:text="${service.price}"></span></p>
+
+		<form th:action="@{/booking/save}" th:object="${booking}" method="post">
+		    <!-- Service ID hidden field mein bhej (object nahi) -->
+		    <input type="hidden" name="serviceId" th:value="${service.id}" />
+
+		    <label>Booking Date</label>
+		    <input type="date" th:field="*{bookingDate}" required />
+
+		    <label>Time Slot</label>
+		    <select th:field="*{timeSlot}" required>
+		        <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+		        <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+		        <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM</option>
+		        <option value="04:00 PM - 05:00 PM">04:00 PM - 05:00 PM</option>
+		    </select>
+
+		    <button type="submit">Confirm Booking</button>
+		</form>
+        <a th:href="@{/}">← Back to Services</a>
+    </div>
+</body>
+</html>

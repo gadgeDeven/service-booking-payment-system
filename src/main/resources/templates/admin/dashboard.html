@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head><title>Admin Dashboard</title></head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <p>Hello Admin! <a th:href="@{/logout}">Logout</a> | <a th:href="@{/}">Home</a></p>
+
+    <a th:href="@{/admin/services/add}">+ Add New Service</a>
+
+    <h2>Available Services</h2>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr><th>ID</th><th>Name</th><th>Description</th><th>Price</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="s : ${services}">
+                <td th:text="${s.id}"></td>
+                <td th:text="${s.name}"></td>
+                <td th:text="${s.description}"></td>
+                <td th:text="${'₹' + s.price}"></td>
+            </tr>
+        </tbody>
+    </table>
+	
+	
+</body>
+</html>
